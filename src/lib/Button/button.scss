@@ -1,0 +1,48 @@
+.g-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  
+
+  &:focus {
+    outline: none;
+  }
+
+  // 默认样式
+  &.g-button-default {
+    color: #575757;
+    background: #f7f7fa;
+    &:hover {
+      background: #e5e5ea;
+    }
+    &:active {
+      background: #d9d9d9;
+    }
+  }
+
+  // 主要颜色
+  &.g-button-primary {
+    color: #fff;
+    background: #3498ff;
+    &:hover {
+      background: #2589f5;
+    }
+    &:active {
+      background: #1675e0;
+    }
+  }
+
+  // 危险颜色
+  &.g-button-danger {
+    color: #fff;
+    background: #ff7875;
+    &:hover {
+      background: #e4383a;
+    }
+    &:active {
+      background: #d42926;
+    }
+  }
+}
