@@ -3,8 +3,10 @@
   font-size: 14px;
   border-radius: 6px;
   border: none;
+  user-select: none;
   cursor: pointer;
-  
+  margin-right: 8px;
+  margin-top: 20px;
 
   &:focus {
     outline: none;
@@ -20,6 +22,11 @@
     &:active {
       background: #d9d9d9;
     }
+
+    &.g-button-disabled {
+      color: #c5c6c7;
+      pointer-events: none;
+    }
   }
 
   // 主要颜色
@@ -32,6 +39,10 @@
     &:active {
       background: #1675e0;
     }
+    &.g-button-disabled {
+      background: #cce9ff;
+      pointer-events: none;
+    }
   }
 
   // 危险颜色
@@ -43,6 +54,10 @@
     }
     &:active {
       background: #d42926;
+    }
+    &.g-button-disabled {
+      background: #eeb4b3;
+      pointer-events: none;
     }
   }
 }

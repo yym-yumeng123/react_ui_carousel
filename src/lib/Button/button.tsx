@@ -7,13 +7,15 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLElement>, "type"> {
 }
 
 const Button: FC<ButtonProps> = (props) => {
-  const { type = "default", ...restProps } = props;
+  const { type = "default", disabled = false, children, ...restProps } = props;
   const cn = {
     [`g-button-${type}`]: type,
+    [`g-button-disabled`]: disabled,
   };
+
   return (
     <button className={classnames("g-button", cn)} {...restProps}>
-      按钮
+      {children}
     </button>
   );
 };
