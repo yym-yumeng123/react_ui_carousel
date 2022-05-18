@@ -1,4 +1,4 @@
-import { Button, Checkbox, CheckboxGroup } from "./lib/index";
+import { Button, Checkbox, CheckboxGroup, Table } from "./lib/index";
 import "./App.scss";
 import { ChangeEvent, useState } from "react";
 
@@ -45,6 +45,10 @@ const App = () => {
         <Checkbox value="梨子" disabled />
       </CheckboxGroup>
       <p>{values}</p>
+
+      <hr />
+
+      <Table columns=[] data=[] />
     </div>
   );
 };
