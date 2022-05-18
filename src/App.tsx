@@ -1,14 +1,20 @@
 import { Button, Checkbox, CheckboxGroup } from "./lib/index";
 import "./App.scss";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 const App = () => {
+  const [values, setValues] = useState<string[] | "">("");
   const handleClick = () => {
     console.log("我是普通按钮");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target, e.target.value, e.target.checked);
+  };
+
+  const handleGroupChange = (values: string[]) => {
+    console.log(values, "value...");
+    setValues(values);
   };
 
   return (
@@ -33,11 +39,12 @@ const App = () => {
       <Checkbox value="选择框" onChange={handleChange} />
       <Checkbox disabled checked value="苹果" />
 
-      <CheckboxGroup selected={["香蕉", "梨子"]}>
+      <CheckboxGroup selected={["香蕉", "梨子"]} onChange={handleGroupChange}>
         <Checkbox value="苹果" />
         <Checkbox value="香蕉" />
         <Checkbox value="梨子" disabled />
       </CheckboxGroup>
+      <p>{values}</p>
     </div>
   );
 };
