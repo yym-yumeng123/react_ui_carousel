@@ -1,9 +1,14 @@
 import { Button, Checkbox } from "./lib/index";
 import "./App.scss";
+import { ChangeEvent } from "react";
 
 const App = () => {
   const handleClick = () => {
     console.log("我是普通按钮");
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target, e.target.value, e.target.checked);
   };
 
   return (
@@ -25,7 +30,8 @@ const App = () => {
       <br />
       <hr />
 
-      <Checkbox />
+      <Checkbox value="选择框" onChange={handleChange} />
+      <Checkbox disabled checked value="苹果" />
     </div>
   );
 };

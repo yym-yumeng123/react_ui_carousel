@@ -39,4 +39,18 @@
       box-sizing: border-box;
     }
   }
+
+  &.g-checkbox-disabled {
+    cursor: not-allowed;
+    .g-checkbox-inner {
+      background: #f7f7fa;
+      border: none;
+      &.g-checkbox-checked {
+        background: #cce9ff;
+      }
+    }
+    .g-checkbox-label {
+      color: #c5c6c7;
+    }
+  }
 }
