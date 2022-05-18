@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import classNames from "classnames";
 import "./checkbox.scss";
 
@@ -7,12 +7,27 @@ interface CheckboxProps {
   disabled?: boolean;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+
+  // group 传的 props
+  selected?: string[];
 }
 
 const Checkbox: FC<CheckboxProps> = (props) => {
-  const { checked = false, disabled = false, value = "", onChange } = props;
+  const {
+    selected = [],
+    checked = false,
+    disabled = false,
+    value = "",
+    onChange,
+  } = props;
   // 当前是否被选中
   const [currentChecked, setCurrentChecked] = useState(checked);
+
+  useEffect(() => {
+    if (selected.length > 0 && selected.indexOf(value) > -1) {
+      setCurrentChecked(true);
+    }
+  }, []);
 
   const classes_inner = {
     "g-checkbox-checked": currentChecked,
