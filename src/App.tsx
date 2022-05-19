@@ -2,6 +2,17 @@ import { Button, Checkbox, CheckboxGroup, Table } from "./lib/index";
 import "./App.scss";
 import { ChangeEvent, useState } from "react";
 
+type DataProps = {
+  age: number;
+  name: string;
+  gender: string;
+};
+
+type ColProps = {
+  title: string;
+  key: keyof DataProps;
+};
+
 const App = () => {
   const [values, setValues] = useState<string[] | "">("");
   const handleClick = () => {
@@ -16,6 +27,29 @@ const App = () => {
     console.log(values, "value...");
     setValues(values);
   };
+
+  const columns: ColProps[] = [
+    {
+      title: "年龄",
+      key: "age",
+    },
+    {
+      title: "姓名",
+      key: "name",
+    },
+    {
+      title: "性别",
+      key: "gender",
+    },
+  ];
+
+  const data: DataProps[] = [
+    {
+      age: 15,
+      name: "yym",
+      gender: "男",
+    },
+  ];
 
   return (
     <div className="App">
@@ -48,7 +82,7 @@ const App = () => {
 
       <hr />
 
-      <Table columns=[] data=[] />
+      <Table<DataProps> columns={columns} data={data} />
     </div>
   );
 };
