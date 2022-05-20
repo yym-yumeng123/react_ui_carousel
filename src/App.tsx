@@ -1,16 +1,19 @@
 import { Button, Checkbox, CheckboxGroup, Table } from "./lib/index";
 import "./App.scss";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, ReactNode, useState } from "react";
 
 type DataProps = {
   age: number;
   name: string;
   gender: string;
+  address: string;
+  action?: any;
 };
 
-type ColProps = {
+type ColProps<T> = {
   title: string;
   key: keyof DataProps;
+  render?: (text: string, record: T, index: number) => ReactNode;
 };
 
 const App = () => {
@@ -28,7 +31,7 @@ const App = () => {
     setValues(values);
   };
 
-  const columns: ColProps[] = [
+  const columns: ColProps<DataProps>[] = [
     {
       title: "年龄",
       key: "age",
@@ -41,6 +44,25 @@ const App = () => {
       title: "性别",
       key: "gender",
     },
+    {
+      title: "地址",
+      key: "address",
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text: string, record: DataProps, index: number) => {
+        console.log(text, record, index, "data...");
+        return (
+          <>
+            <Button type="danger" style={{ marginRight: "8px" }}>
+              删除
+            </Button>
+            <Button type="primary">编辑</Button>
+          </>
+        );
+      },
+    },
   ];
 
   const data: DataProps[] = [
@@ -48,6 +70,25 @@ const App = () => {
       age: 15,
       name: "yym",
       gender: "男",
+      address: "深圳市",
+    },
+    {
+      age: 18,
+      name: "张三",
+      gender: "女",
+      address: "安徽省",
+    },
+    {
+      age: 35,
+      name: "李四",
+      gender: "女",
+      address: "张家界",
+    },
+    {
+      age: 6,
+      name: "小黑",
+      gender: "男",
+      address: "蚌埠",
     },
   ];
 
@@ -82,7 +123,15 @@ const App = () => {
 
       <hr />
 
-      <Table<DataProps> columns={columns} data={data} />
+      <Table columns={columns} data={data} />
+      <Table
+        columns={columns}
+        data={data}
+        bordered
+        compact
+        numberVisible
+        checkable
+      />
     </div>
   );
 };

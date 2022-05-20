@@ -1,0 +1,70 @@
+.g-table-wrap {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06), 0 4px 4px 0 rgba(0, 0, 0, 0.12);
+  margin-top: 20px;
+
+  .g-table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    &-head {
+      line-height: 20px;
+      tr {
+        th {
+          padding: 10px;
+          font-size: 12px;
+          font-weight: 400;
+          color: #8e8e93;
+        }
+      }
+    }
+
+    &-body {
+      line-height: 20px;
+      tr {
+        td {
+          padding: 13px 10px;
+          font-size: 14px;
+          color: #575757;
+        }
+      }
+    }
+
+    tr {
+      text-align: left;
+      border-bottom: 1px solid #f2f2f5;
+      &:hover {
+        background: #f2faff;
+      }
+    }
+
+    &.g-table-bordered {
+      border: 1px solid #f2f2f5;
+      border-radius: 6px;
+      th,
+      td {
+        border: 1px solid #f2f2f5;
+      }
+    }
+    &.g-table-compact {
+      td,
+      th {
+        padding: 5px;
+      }
+    }
+    &.g-table-striped {
+      .g-table-body {
+        tr {
+          &:nth-child(even) {
+            background: #f7f7fa;
+          }
+          &:hover {
+            background: #f2faff;
+          }
+        }
+      }
+    }
+  }
+}
