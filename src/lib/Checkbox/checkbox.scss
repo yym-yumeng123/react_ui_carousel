@@ -31,6 +31,20 @@
           border-left: none;
         }
       }
+      &.g-checkbox-indeterminate {
+        background: #3498ff;
+        border: 1px solid #3498ff;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 7px;
+          left: 3px;
+          width: 10px;
+          height: 2px;
+          background: #fff;
+          transform: rotate(0);
+        }
+      }
     }
 
     &-input {

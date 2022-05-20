@@ -8,6 +8,7 @@ type DataProps = {
   gender: string;
   address: string;
   action?: any;
+  key?: string;
 };
 
 type ColProps<T> = {
@@ -52,7 +53,6 @@ const App = () => {
       title: "操作",
       key: "action",
       render: (text: string, record: DataProps, index: number) => {
-        console.log(text, record, index, "data...");
         return (
           <>
             <Button type="danger" style={{ marginRight: "8px" }}>
@@ -67,24 +67,28 @@ const App = () => {
 
   const data: DataProps[] = [
     {
+      key: "1",
       age: 15,
       name: "yym",
       gender: "男",
       address: "深圳市",
     },
     {
+      key: "2",
       age: 18,
       name: "张三",
       gender: "女",
       address: "安徽省",
     },
     {
+      key: "3",
       age: 35,
       name: "李四",
       gender: "女",
       address: "张家界",
     },
     {
+      key: "4",
       age: 6,
       name: "小黑",
       gender: "男",
@@ -113,6 +117,7 @@ const App = () => {
 
       <Checkbox value="选择框" onChange={handleChange} />
       <Checkbox disabled checked value="苹果" />
+      <Checkbox indeterminate value="苹果" />
 
       <CheckboxGroup selected={["香蕉", "梨子"]} onChange={handleGroupChange}>
         <Checkbox value="苹果" />

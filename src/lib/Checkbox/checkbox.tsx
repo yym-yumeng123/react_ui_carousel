@@ -7,7 +7,7 @@ interface CheckboxProps {
   disabled?: boolean;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-
+  indeterminate?: boolean;
   // group 传的 props
   selected?: string[];
 }
@@ -17,6 +17,7 @@ const Checkbox: FC<CheckboxProps> = (props) => {
     selected = [],
     checked = false,
     disabled = false,
+    indeterminate = false,
     value = "",
     onChange,
   } = props;
@@ -29,8 +30,13 @@ const Checkbox: FC<CheckboxProps> = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    setCurrentChecked(checked);
+  }, [checked]);
+
   const classes_inner = {
     "g-checkbox-checked": currentChecked,
+    "g-checkbox-indeterminate": indeterminate,
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

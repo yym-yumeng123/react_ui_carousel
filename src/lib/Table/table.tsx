@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from "react";
+import { ChangeEvent, ReactElement, ReactNode, useMemo, useState } from "react";
 import { Checkbox } from "../index";
 
 import classnames from "classnames";
@@ -33,11 +33,45 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     checkable = false,
   } = props;
 
+  const [selected, setSelected] = useState<any[]>([]);
+
   const tableClasses = {
     "g-table-bordered": bordered,
     "g-table-compact": compact,
     "g-table-striped": striped,
   };
+
+  const handleSelectItem = (e: ChangeEvent<HTMLInputElement>, item: any) => {
+    const { checked } = e.target;
+    // 改变 checked 的值
+    checked
+      ? setSelected([...selected, item])
+      : setSelected(selected.filter((i) => i.key !== item.key));
+  };
+
+  const handleSelectAllItem = (e: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setSelected(checked ? data : []);
+  };
+
+  // 判断表格行是否被选中
+  const areItemSelected = (item: any) =>
+    useMemo(
+      () => selected.filter((i) => i.key === item.key).length > 0,
+      [selected]
+    );
+
+  // 表格头的状态
+  const areAllItemsSelected: boolean = useMemo(
+    () => data.length === selected.length,
+    [selected]
+  );
+
+  // 不完全选择
+  const areNotAllItemsSelected: boolean = useMemo(
+    () => data.length !== selected.length && selected.length !== 0,
+    [selected]
+  );
 
   return (
     <div className="g-table-wrap">
@@ -46,7 +80,11 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
           <tr>
             {checkable && (
               <th>
-                <Checkbox />
+                <Checkbox
+                  checked={areAllItemsSelected}
+                  indeterminate={areNotAllItemsSelected}
+                  onChange={(e) => handleSelectAllItem(e)}
+                />
               </th>
             )}
             {/* 是否显示序号 */}
@@ -59,11 +97,16 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
 
         <tbody className="g-table-body">
           {data.map((item, index) => {
+            console.log(areItemSelected(item), "丁东坑");
+
             return (
               <tr key={index}>
                 {checkable && (
                   <td>
-                    <Checkbox />
+                    <Checkbox
+                      checked={areItemSelected(item)}
+                      onChange={(e) => handleSelectItem(e, item)}
+                    />
                   </td>
                 )}
                 {/* 显示序号的字段 */}
