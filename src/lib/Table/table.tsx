@@ -32,6 +32,8 @@ interface TableProps<T> {
   // 选择框
   checkable?: boolean;
   changeSeletedItems?: (selected: T[]) => void;
+
+  loading?: boolean;
 }
 
 const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
@@ -45,9 +47,11 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
 
     checkable = false,
     changeSeletedItems,
+
+    loading = false,
   } = props;
 
-  const [update, setUpdate] = useState(0); // 更新页面
+  const [_, setUpdate] = useState(0); // 更新页面
   const [selected, setSelected] = useState<any[]>([]);
   const order = useRef<"asc" | "desc" | "unsc">("unsc");
 
@@ -188,6 +192,7 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
           })}
         </tbody>
       </table>
+      {loading && <div className="g-table-loading">加载中...</div>}
     </div>
   );
 };

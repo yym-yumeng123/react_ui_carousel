@@ -139,7 +139,7 @@ const App = () => {
 
       <hr />
 
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} loading />
 
       <Table
         columns={columns}
