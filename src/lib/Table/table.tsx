@@ -4,6 +4,7 @@ import {
   ReactNode,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { Checkbox } from "../index";
@@ -46,9 +47,9 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     changeSeletedItems,
   } = props;
 
+  const [update, setUpdate] = useState(0); // 更新页面
   const [selected, setSelected] = useState<any[]>([]);
-
-  const [order, setOrder] = useState<"asc" | "desc" | "unsc">("unsc");
+  const order = useRef<"asc" | "desc" | "unsc">("unsc");
 
   const tableClasses = {
     "g-table-bordered": bordered,
@@ -93,15 +94,17 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
   );
 
   const handleOrderBy = (col: columns<any>) => {
-    if (order === "unsc") {
-      setOrder("asc");
-    } else if (order === "asc") {
-      setOrder("desc");
-    } else if (order === "desc") {
-      setOrder("unsc");
+    if (order.current === "unsc") {
+      order.current = "asc";
+    } else if (order.current === "asc") {
+      order.current = "desc";
+    } else if (order.current === "desc") {
+      order.current = "unsc";
     }
 
-    col.sorter && col.sorter(order);
+    setUpdate(Math.random());
+
+    col.sorter && col.sorter(order.current);
   };
 
   return (
@@ -133,12 +136,12 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
                       <span className="g-table-sort">
                         <i
                           className={classnames("g-table-up", {
-                            "g-table-active": order === "asc",
+                            "g-table-active": order.current === "asc",
                           })}
                         ></i>
                         <i
                           className={classnames("g-table-down", {
-                            "g-table-active": order === "desc",
+                            "g-table-active": order.current === "desc",
                           })}
                         ></i>
                       </span>
