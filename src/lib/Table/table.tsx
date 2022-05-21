@@ -12,10 +12,13 @@ import classnames from "classnames";
 
 import "./table.scss";
 
+type orderType = "asc" | "desc" | "unsc";
+
 type columns<T> = {
   title: string;
   key: keyof T;
   render?: (text: string, record: T, index: number) => ReactNode;
+  sorter?: (val: orderType) => void;
 };
 
 interface TableProps<T> {
@@ -44,6 +47,8 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
   } = props;
 
   const [selected, setSelected] = useState<any[]>([]);
+
+  const [order, setOrder] = useState<"asc" | "desc" | "unsc">("unsc");
 
   const tableClasses = {
     "g-table-bordered": bordered,
@@ -87,6 +92,18 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     [selected]
   );
 
+  const handleOrderBy = (col: columns<any>) => {
+    if (order === "unsc") {
+      setOrder("asc");
+    } else if (order === "asc") {
+      setOrder("desc");
+    } else if (order === "desc") {
+      setOrder("unsc");
+    }
+
+    col.sorter && col.sorter(order);
+  };
+
   return (
     <div className="g-table-wrap">
       <table className={classnames("g-table", tableClasses)}>
@@ -104,7 +121,33 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
             {/* 是否显示序号 */}
             {numberVisible && <th>序号</th>}
             {columns.map((col) => {
-              return <th key={col.key as string}>{col.title}</th>;
+              return (
+                <th key={col.key as string}>
+                  {/* 排序按钮 */}
+                  {col.sorter ? (
+                    <span
+                      className="g-table-sort-wrap"
+                      onClick={() => handleOrderBy(col)}
+                    >
+                      {col.title}
+                      <span className="g-table-sort">
+                        <i
+                          className={classnames("g-table-up", {
+                            "g-table-active": order === "asc",
+                          })}
+                        ></i>
+                        <i
+                          className={classnames("g-table-down", {
+                            "g-table-active": order === "desc",
+                          })}
+                        ></i>
+                      </span>
+                    </span>
+                  ) : (
+                    <>{col.title}</>
+                  )}
+                </th>
+              );
             })}
           </tr>
         </thead>
