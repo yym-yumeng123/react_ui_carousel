@@ -28,7 +28,6 @@ const App = () => {
   };
 
   const handleGroupChange = (values: string[]) => {
-    console.log(values, "value...");
     setValues(values);
   };
 
@@ -96,6 +95,14 @@ const App = () => {
     },
   ];
 
+  const handleChangeSelected = (val: DataProps[]) => {
+    console.log(val, "选中的值");
+  };
+
+  const handleSelectedAll = () => {
+    console.log("23");
+  };
+
   return (
     <div className="App">
       <Button onClick={handleClick}>普通按钮</Button>
@@ -129,6 +136,7 @@ const App = () => {
       <hr />
 
       <Table columns={columns} data={data} />
+
       <Table
         columns={columns}
         data={data}
@@ -136,6 +144,7 @@ const App = () => {
         compact
         numberVisible
         checkable
+        changeSeletedItems={handleChangeSelected}
       />
     </div>
   );

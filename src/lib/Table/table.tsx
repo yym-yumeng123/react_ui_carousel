@@ -1,4 +1,11 @@
-import { ChangeEvent, ReactElement, ReactNode, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Checkbox } from "../index";
 
 import classnames from "classnames";
@@ -20,6 +27,7 @@ interface TableProps<T> {
   numberVisible?: boolean;
   // 选择框
   checkable?: boolean;
+  changeSeletedItems?: (selected: T[]) => void;
 }
 
 const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
@@ -30,7 +38,9 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     compact = false,
     striped = true,
     numberVisible = false,
+
     checkable = false,
+    changeSeletedItems,
   } = props;
 
   const [selected, setSelected] = useState<any[]>([]);
@@ -40,6 +50,10 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     "g-table-compact": compact,
     "g-table-striped": striped,
   };
+
+  useEffect(() => {
+    changeSeletedItems && changeSeletedItems(selected);
+  }, [selected]);
 
   const handleSelectItem = (e: ChangeEvent<HTMLInputElement>, item: any) => {
     const { checked } = e.target;
@@ -97,8 +111,6 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
 
         <tbody className="g-table-body">
           {data.map((item, index) => {
-            console.log(areItemSelected(item), "丁东坑");
-
             return (
               <tr key={index}>
                 {checkable && (
