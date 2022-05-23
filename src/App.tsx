@@ -91,7 +91,35 @@ const App = () => {
       address: "张家界",
     },
     {
-      key: "4",
+      key: "5",
+      age: 6,
+      name: "小黑",
+      gender: "男",
+      address: "蚌埠",
+    },
+    {
+      key: "6",
+      age: 35,
+      name: "李四",
+      gender: "女",
+      address: "张家界",
+    },
+    {
+      key: "7",
+      age: 6,
+      name: "小黑",
+      gender: "男",
+      address: "蚌埠",
+    },
+    {
+      key: "8",
+      age: 35,
+      name: "李四",
+      gender: "女",
+      address: "张家界",
+    },
+    {
+      key: "9",
       age: 6,
       name: "小黑",
       gender: "男",
@@ -139,17 +167,20 @@ const App = () => {
 
       <hr />
 
-      <Table columns={columns} data={data} loading />
+      <Table columns={columns} data={data} />
 
-      <Table
-        columns={columns}
-        data={data}
-        bordered
-        compact
-        numberVisible
-        checkable
-        changeSeletedItems={handleChangeSelected}
-      />
+      <div style={{ overflow: "hidden" }}>
+        <Table
+          columns={columns}
+          data={data}
+          bordered
+          compact
+          numberVisible
+          checkable
+          changeSeletedItems={handleChangeSelected}
+          height={300}
+        />
+      </div>
     </div>
   );
 };

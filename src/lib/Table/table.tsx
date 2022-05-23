@@ -34,6 +34,7 @@ interface TableProps<T> {
   changeSeletedItems?: (selected: T[]) => void;
 
   loading?: boolean;
+  height?: number;
 }
 
 const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
@@ -49,11 +50,14 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     changeSeletedItems,
 
     loading = false,
+    height,
   } = props;
 
   const [_, setUpdate] = useState(0); // 更新页面
   const [selected, setSelected] = useState<any[]>([]);
   const order = useRef<"asc" | "desc" | "unsc">("unsc");
+  const wrapRef = useRef<any>(null);
+  const tableRef = useRef<any>(null);
 
   const tableClasses = {
     "g-table-bordered": bordered,
@@ -112,9 +116,17 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
   };
 
   return (
-    <div className="g-table-wrap">
-      <table className={classnames("g-table", tableClasses)}>
-        <thead className="g-table-head">
+    <div
+      ref={wrapRef}
+      className="g-table-wrap"
+      style={{ height: height, overflow: height ? "auto" : "unset" }}
+    >
+      <table ref={tableRef} className={classnames("g-table", tableClasses)}>
+        <thead
+          className={classnames("g-table-head", {
+            "g-table-sticky": !!height,
+          })}
+        >
           <tr>
             {checkable && (
               <th>

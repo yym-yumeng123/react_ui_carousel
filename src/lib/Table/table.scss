@@ -20,6 +20,13 @@
           color: #8e8e93;
         }
       }
+      &.g-table-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0; /* 列首永远固定在头部  */
+        background: #fff;
+        z-index: 10;
+      }
       .g-table-sort-wrap {
         display: flex;
         align-items: center;
@@ -113,5 +120,12 @@
     height: 100%;
     opacity: 0.7;
     background: #fff;
+  }
+
+  .g-table-carbon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: pink;
   }
 }
