@@ -18,12 +18,6 @@
           font-size: 12px;
           font-weight: 400;
           color: #8e8e93;
-          &:first-child {
-            position: -webkit-sticky;
-            position: sticky;
-            left: 0;
-            background-color: #fff;
-          }
         }
       }
       &.g-table-sticky {
@@ -76,18 +70,6 @@
           padding: 13px 10px;
           font-size: 14px;
           color: #575757;
-          &:first-child {
-            position: -webkit-sticky;
-            position: sticky;
-            left: 0;
-            background: #fff;
-          }
-          &:nth-child(2) {
-            position: -webkit-sticky;
-            position: sticky;
-            left: 100px;
-            background: #fff;
-          }
         }
 
       }

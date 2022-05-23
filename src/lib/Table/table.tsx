@@ -35,7 +35,6 @@ interface TableProps<T> {
 
   loading?: boolean;
   height?: number;
-  width?: number;
 }
 
 const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
@@ -52,7 +51,6 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
 
     loading = false,
     height,
-    width,
   } = props;
 
   const [_, setUpdate] = useState(0); // 更新页面
@@ -136,18 +134,10 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
       className="g-table-wrap"
       style={{
         height: height,
-        maxWidth: "100%",
         overflowY: height ? "auto" : "unset",
       }}
     >
-      <table
-        ref={tableRef}
-        className={classnames("g-table", tableClasses)}
-        style={{
-          width,
-          overflowX: width ? "auto" : "unset",
-        }}
-      >
+      <table ref={tableRef} className={classnames("g-table", tableClasses)}>
         <thead
           className={classnames("g-table-head", {
             "g-table-sticky": !!height,
