@@ -35,6 +35,7 @@ interface TableProps<T> {
 
   loading?: boolean;
   height?: number;
+  width?: number;
 }
 
 const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
@@ -51,6 +52,7 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
 
     loading = false,
     height,
+    width,
   } = props;
 
   const [_, setUpdate] = useState(0); // 更新页面
@@ -115,13 +117,37 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     col.sorter && col.sorter(order.current);
   };
 
+  // 计算 colspan 的 值
+  const colSpan = (): number => {
+    let length = 0;
+    if (numberVisible) {
+      length += 1;
+    }
+    if (checkable) {
+      length += 1;
+    }
+
+    return length;
+  };
+
   return (
     <div
       ref={wrapRef}
       className="g-table-wrap"
-      style={{ height: height, overflow: height ? "auto" : "unset" }}
+      style={{
+        height: height,
+        maxWidth: "100%",
+        overflowY: height ? "auto" : "unset",
+      }}
     >
-      <table ref={tableRef} className={classnames("g-table", tableClasses)}>
+      <table
+        ref={tableRef}
+        className={classnames("g-table", tableClasses)}
+        style={{
+          width,
+          overflowX: width ? "auto" : "unset",
+        }}
+      >
         <thead
           className={classnames("g-table-head", {
             "g-table-sticky": !!height,
@@ -202,6 +228,16 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
               </tr>
             );
           })}
+          {data.length === 0 && (
+            <tr>
+              <td
+                className="g-table-empty"
+                colSpan={columns.length + colSpan()}
+              >
+                <span className="default">暂无数据</span>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {loading && <div className="g-table-loading">加载中...</div>}

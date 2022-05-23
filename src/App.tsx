@@ -66,6 +66,14 @@ const App = () => {
         );
       },
     },
+    { title: "Column 1", dataIndex: "address", key: "1" },
+    { title: "Column 2", dataIndex: "address", key: "2" },
+    { title: "Column 3", dataIndex: "address", key: "3" },
+    { title: "Column 4", dataIndex: "address", key: "4" },
+    { title: "Column 5", dataIndex: "address", key: "5" },
+    { title: "Column 6", dataIndex: "address", key: "6" },
+    { title: "Column 7", dataIndex: "address", key: "7" },
+    { title: "Column 8", dataIndex: "address", key: "8" },
   ];
 
   const data: DataProps[] = [
@@ -166,21 +174,20 @@ const App = () => {
       <p>{values}</p>
 
       <hr />
+      <Table columns={columns} data={[]} />
 
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} height={400} width={1500} />
 
-      <div style={{ overflow: "hidden" }}>
-        <Table
-          columns={columns}
-          data={data}
-          bordered
-          compact
-          numberVisible
-          checkable
-          changeSeletedItems={handleChangeSelected}
-          height={300}
-        />
-      </div>
+      <Table
+        columns={columns}
+        data={data}
+        bordered
+        compact
+        numberVisible
+        checkable
+        changeSeletedItems={handleChangeSelected}
+        height={300}
+      />
     </div>
   );
 };
