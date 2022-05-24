@@ -71,21 +71,17 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
 
   // 固定表头计算
   useEffect(() => {
-    // let tableCarbon: any;
-    // if (height) {
-    //   tableCarbon = tableRef.current.cloneNode(false);
-    //   tableCarbon.classList.add("yui-table-carbon");
-    //   const tHead = tableRef.current.children[0];
-    //   console.log(tHead, "唐代");
-    //   const { height } = tHead.getBoundingClientRect();
-    //   tableRef.current.style.marginTop = `${height}px`;
-    //   tableCarbon.appendChild(tHead);
-    //   wrapRef.current.appendChild(tableCarbon);
-    // }
-    // // 移除
-    // return () => {
-    //   height && tableCarbon.remove();
-    // };
+    if (height) {
+      const table1 = tableRef.current.cloneNode(false);
+      const tHead = tableRef.current.children[0];
+      const divHead = document.createElement("div");
+
+      divHead.appendChild(table1).appendChild(tHead);
+      divHead.style.height = height + "px";
+      divHead.style.overflowY = "auto";
+
+      wrapRef.current.appendChild(divHead);
+    }
   }, []);
 
   const handleSelectItem = (e: ChangeEvent<HTMLInputElement>, item: any) => {
@@ -149,97 +145,95 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
 
   return (
     <div ref={wrapRef} className="g-table-wrap">
-      <div style={{ height: `${height}px`, overflow: "auto" }}>
-        <table ref={tableRef} className={classnames("g-table", tableClasses)}>
-          <thead className={classnames("g-table-head")}>
-            <tr>
-              {checkable && (
-                <th>
-                  <Checkbox
-                    checked={areAllItemsSelected}
-                    indeterminate={areNotAllItemsSelected}
-                    onChange={(e) => handleSelectAllItem(e)}
-                  />
-                </th>
-              )}
-              {/* 是否显示序号 */}
-              {numberVisible && <th>序号</th>}
-              {columns.map((col) => {
-                return (
-                  <th key={col.key as string}>
-                    {/* 排序按钮 */}
-                    {col.sorter ? (
-                      <span
-                        className="g-table-sort-wrap"
-                        onClick={() => handleOrderBy(col)}
-                      >
-                        {col.title}
-                        <span className="g-table-sort">
-                          <i
-                            className={classnames("g-table-up", {
-                              "g-table-active": order.current === "asc",
-                            })}
-                          ></i>
-                          <i
-                            className={classnames("g-table-down", {
-                              "g-table-active": order.current === "desc",
-                            })}
-                          ></i>
-                        </span>
-                      </span>
-                    ) : (
-                      <>{col.title}</>
-                    )}
-                  </th>
-                );
-              })}
-            </tr>
-          </thead>
-
-          <tbody className="g-table-body">
-            {data.map((item, index) => {
+      <table ref={tableRef} className={classnames("g-table", tableClasses)}>
+        <thead className={classnames("g-table-head")}>
+          <tr>
+            {checkable && (
+              <th>
+                <Checkbox
+                  checked={areAllItemsSelected}
+                  indeterminate={areNotAllItemsSelected}
+                  onChange={(e) => handleSelectAllItem(e)}
+                />
+              </th>
+            )}
+            {/* 是否显示序号 */}
+            {numberVisible && <th>序号</th>}
+            {columns.map((col) => {
               return (
-                <tr key={index}>
-                  {checkable && (
-                    <td>
-                      <Checkbox
-                        checked={areItemSelected(item)}
-                        onChange={(e) => handleSelectItem(e, item)}
-                      />
-                    </td>
+                <th key={col.key as string}>
+                  {/* 排序按钮 */}
+                  {col.sorter ? (
+                    <span
+                      className="g-table-sort-wrap"
+                      onClick={() => handleOrderBy(col)}
+                    >
+                      {col.title}
+                      <span className="g-table-sort">
+                        <i
+                          className={classnames("g-table-up", {
+                            "g-table-active": order.current === "asc",
+                          })}
+                        ></i>
+                        <i
+                          className={classnames("g-table-down", {
+                            "g-table-active": order.current === "desc",
+                          })}
+                        ></i>
+                      </span>
+                    </span>
+                  ) : (
+                    <>{col.title}</>
                   )}
-                  {/* 显示序号的字段 */}
-                  {numberVisible && <td>{index + 1}</td>}
-                  {columns.map((col) => {
-                    return (
-                      <td key={col.key as string}>
-                        {/* 渲染的数据 */}
-                        {col.render
-                          ? col.render(
-                              item[col.key] as unknown as string,
-                              item,
-                              index
-                            )
-                          : (item[col.key] as unknown as string)}
-                      </td>
-                    );
-                  })}
-                </tr>
+                </th>
               );
             })}
-            {data.length === 0 && (
-              <tr>
-                <td
-                  className="g-table-empty"
-                  colSpan={columns.length + colSpan()}
-                >
-                  <span className="default">暂无数据</span>
-                </td>
+          </tr>
+        </thead>
+
+        <tbody className="g-table-body">
+          {data.map((item, index) => {
+            return (
+              <tr key={index}>
+                {checkable && (
+                  <td>
+                    <Checkbox
+                      checked={areItemSelected(item)}
+                      onChange={(e) => handleSelectItem(e, item)}
+                    />
+                  </td>
+                )}
+                {/* 显示序号的字段 */}
+                {numberVisible && <td>{index + 1}</td>}
+                {columns.map((col) => {
+                  return (
+                    <td key={col.key as string}>
+                      {/* 渲染的数据 */}
+                      {col.render
+                        ? col.render(
+                            item[col.key] as unknown as string,
+                            item,
+                            index
+                          )
+                        : (item[col.key] as unknown as string)}
+                    </td>
+                  );
+                })}
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            );
+          })}
+          {data.length === 0 && (
+            <tr>
+              <td
+                className="g-table-empty"
+                colSpan={columns.length + colSpan()}
+              >
+                <span className="default">暂无数据</span>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
       {loading && <div className="g-table-loading">加载中...</div>}
     </div>
   );
