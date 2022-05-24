@@ -127,13 +127,7 @@ const App = () => {
     },
   ];
 
-  const handleChangeSelected = (val: DataProps[]) => {
-    console.log(val, "选中的值");
-  };
-
-  const handleSelectedAll = () => {
-    console.log("23");
-  };
+  const handleChangeSelected = (val: DataProps[]) => {};
 
   return (
     <div className="App">
@@ -166,9 +160,9 @@ const App = () => {
       <p>{values}</p>
 
       <hr />
-      <Table columns={columns} data={[]} />
+      {/* <Table columns={columns} data={[]} /> */}
 
-      <Table columns={columns} data={data} />
+      {/* <Table columns={columns} data={data} /> */}
 
       <Table
         columns={columns}
@@ -178,7 +172,7 @@ const App = () => {
         numberVisible
         checkable
         changeSeletedItems={handleChangeSelected}
-        height={300}
+        height={400}
       />
     </div>
   );

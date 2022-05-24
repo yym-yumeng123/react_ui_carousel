@@ -66,29 +66,27 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
   };
 
   useEffect(() => {
-    let tableCarbon: any;
-    if (height) {
-      tableCarbon = tableRef.current.cloneNode(true);
-      console.log(tableCarbon, "费等零散");
-
-      // tableCarbon.classList.add("g-table-carbon");
-
-      // const tHead = tableRef.current.children[0];
-      // const { height } = tHead.getBoundingClientRect();
-      // tableRef.current.style.marginTop = `${height}px`;
-      // tableCarbon.appendChild(tHead);
-      // wrapRef.current.appendChild(tableCarbon);
-    }
-
-    // 移除
-    return () => {
-      height && tableCarbon.remove();
-    };
-  }, []);
-
-  useEffect(() => {
     changeSeletedItems && changeSeletedItems(selected);
   }, [selected]);
+
+  // 固定表头计算
+  useEffect(() => {
+    // let tableCarbon: any;
+    // if (height) {
+    //   tableCarbon = tableRef.current.cloneNode(false);
+    //   tableCarbon.classList.add("yui-table-carbon");
+    //   const tHead = tableRef.current.children[0];
+    //   console.log(tHead, "唐代");
+    //   const { height } = tHead.getBoundingClientRect();
+    //   tableRef.current.style.marginTop = `${height}px`;
+    //   tableCarbon.appendChild(tHead);
+    //   wrapRef.current.appendChild(tableCarbon);
+    // }
+    // // 移除
+    // return () => {
+    //   height && tableCarbon.remove();
+    // };
+  }, []);
 
   const handleSelectItem = (e: ChangeEvent<HTMLInputElement>, item: any) => {
     const { checked } = e.target;
