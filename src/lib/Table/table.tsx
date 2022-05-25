@@ -36,8 +36,8 @@ interface TableProps<T> {
   loading?: boolean;
   height?: number;
 }
-
-const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
+// function Table<T>(props: TableProps<T>)
+const Table = <T,>(props: TableProps<T>) => {
   const {
     columns,
     data,
@@ -73,14 +73,19 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
   useEffect(() => {
     if (height) {
       const table1 = tableRef.current.cloneNode(false);
+      const table2 = tableRef.current.cloneNode(false);
+
       const tHead = tableRef.current.children[0];
-      const divHead = document.createElement("div");
+      const tBody = tableRef.current.children[1];
+      const divBody = document.createElement("div");
 
-      divHead.appendChild(table1).appendChild(tHead);
-      divHead.style.height = height + "px";
-      divHead.style.overflowY = "auto";
+      table1.appendChild(tHead);
+      divBody.appendChild(table2).appendChild(tBody);
+      divBody.style.height = height + "px";
+      divBody.style.overflowY = "auto";
 
-      wrapRef.current.appendChild(divHead);
+      wrapRef.current.appendChild(table1);
+      wrapRef.current.appendChild(divBody);
     }
   }, []);
 
@@ -98,7 +103,7 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
   };
 
   // 判断表格行是否被选中
-  const areItemSelected = (item: any) =>
+  const areItemSelected = (item: T) =>
     useMemo(
       () => selected.filter((i) => i.key === item.key).length > 0,
       [selected]
@@ -116,7 +121,7 @@ const Table: <T>(props: TableProps<T>) => ReactElement = (props) => {
     [selected]
   );
 
-  const handleOrderBy = (col: columns<any>) => {
+  const handleOrderBy = (col: columns<T>) => {
     if (order.current === "unsc") {
       order.current = "asc";
     } else if (order.current === "asc") {

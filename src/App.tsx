@@ -164,7 +164,7 @@ const App = () => {
 
       {/* <Table columns={columns} data={data} /> */}
 
-      <Table
+      <Table<DataProps>
         columns={columns}
         data={data}
         bordered
