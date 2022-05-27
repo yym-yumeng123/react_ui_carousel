@@ -14,6 +14,7 @@ type DataProps = {
 type ColProps<T> = {
   title: string;
   key: keyof DataProps;
+  width?: number;
   render?: (text: string, record: T, index: number) => ReactNode;
   sorter?: (val: any) => void;
 };
@@ -36,6 +37,7 @@ const App = () => {
     {
       title: "年龄",
       key: "age",
+      width: 200,
       sorter: (val) => {
         data.sort((a, b) => Number(a.age) - Number(b.age));
       },
@@ -43,14 +45,17 @@ const App = () => {
     {
       title: "姓名",
       key: "name",
+      width: 200,
     },
     {
       title: "性别",
       key: "gender",
+      width: 100,
     },
     {
       title: "地址",
       key: "address",
+      width: 200,
     },
     {
       title: "操作",

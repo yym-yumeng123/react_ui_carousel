@@ -1,6 +1,5 @@
 import {
   ChangeEvent,
-  ReactElement,
   ReactNode,
   useEffect,
   useMemo,
@@ -18,6 +17,7 @@ type orderType = "asc" | "desc" | "unsc";
 type columns<T> = {
   title: string;
   key: keyof T;
+  width?: number;
   render?: (text: string, record: T, index: number) => ReactNode;
   sorter?: (val: orderType) => void;
 };
@@ -71,9 +71,11 @@ const Table = <T,>(props: TableProps<T>) => {
 
   // 固定表头计算
   useEffect(() => {
+    let table1: any;
+    let table2: any;
     if (height) {
-      const table1 = tableRef.current.cloneNode(false);
-      const table2 = tableRef.current.cloneNode(false);
+      table1 = tableRef.current.cloneNode(false);
+      table2 = tableRef.current.cloneNode(false);
 
       const tHead = tableRef.current.children[0];
       const tBody = tableRef.current.children[1];
@@ -87,6 +89,11 @@ const Table = <T,>(props: TableProps<T>) => {
       wrapRef.current.appendChild(table1);
       wrapRef.current.appendChild(divBody);
     }
+
+    return () => {
+      height && table1.remove();
+      height && table2.remove();
+    };
   }, []);
 
   const handleSelectItem = (e: ChangeEvent<HTMLInputElement>, item: any) => {
@@ -154,7 +161,7 @@ const Table = <T,>(props: TableProps<T>) => {
         <thead className={classnames("g-table-head")}>
           <tr>
             {checkable && (
-              <th>
+              <th style={{ width: "50px" }}>
                 <Checkbox
                   checked={areAllItemsSelected}
                   indeterminate={areNotAllItemsSelected}
@@ -163,10 +170,11 @@ const Table = <T,>(props: TableProps<T>) => {
               </th>
             )}
             {/* 是否显示序号 */}
-            {numberVisible && <th>序号</th>}
+            {numberVisible && <th style={{ width: "50px" }}>序号</th>}
+
             {columns.map((col) => {
               return (
-                <th key={col.key as string}>
+                <th key={col.key as string} style={{ width: `${col.width}px` }}>
                   {/* 排序按钮 */}
                   {col.sorter ? (
                     <span
@@ -201,7 +209,7 @@ const Table = <T,>(props: TableProps<T>) => {
             return (
               <tr key={index}>
                 {checkable && (
-                  <td>
+                  <td style={{ width: "50px" }}>
                     <Checkbox
                       checked={areItemSelected(item)}
                       onChange={(e) => handleSelectItem(e, item)}
@@ -209,10 +217,15 @@ const Table = <T,>(props: TableProps<T>) => {
                   </td>
                 )}
                 {/* 显示序号的字段 */}
-                {numberVisible && <td>{index + 1}</td>}
+                {numberVisible && (
+                  <td style={{ width: "50px" }}>{index + 1}</td>
+                )}
                 {columns.map((col) => {
                   return (
-                    <td key={col.key as string}>
+                    <td
+                      key={col.key as string}
+                      style={{ width: `${col.width}px` }}
+                    >
                       {/* 渲染的数据 */}
                       {col.render
                         ? col.render(
